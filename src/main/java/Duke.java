@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 import java.util.Scanner;
 
 public class Duke {
+    private static List<String> taskList = new ArrayList<>();
     public static void main(String[] args) {
         /*
         String logo = " ____        _        \n"
@@ -9,7 +13,7 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
-        */
+         */
         print_line();
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
         print_line();
@@ -30,12 +34,23 @@ public class Duke {
             System.out.println("Bye. Hope to see you again soon!");
             print_line();
             System.exit(0);
-        }else{
+        }else if(inputLine.equals("list")){
             print_line();
-            System.out.println(inputLine);
+            int counter = 1;
+            for (String pastTasks : taskList){
+                System.out.println(counter + ". " + pastTasks);
+                ++counter;
+            }
+            print_line();
+            input();
+        }else{
+            taskList.add(inputLine);
+            print_line();
+            System.out.println("added: " + inputLine);
             print_line();
             input();
         }
+
     }
 }
 
