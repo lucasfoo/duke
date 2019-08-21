@@ -29,7 +29,7 @@ public class Duke {
         List<String> inputList = Arrays.asList(inputLine.split(" "));
 
         if(inputList.get(0).equals("done")) {
-            int listNum = Integer.parseInt(inputList.get(0));
+            int listNum = Integer.parseInt(inputList.get(1));
             Task currTask = taskList.get(listNum - 1);
             currTask.markDone();
             taskList.set(listNum - 1, currTask);
