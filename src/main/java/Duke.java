@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Duke {
     private static List<Task> taskList = new ArrayList<>();
@@ -29,9 +26,10 @@ public class Duke {
 
     private static void input(){ Scanner scanner = new Scanner(System.in);
         String inputLine = scanner.nextLine();
-        String inputList[] =  inputLine.split(" ");
-        if(inputList[0].equals("done")) {
-            int listNum = Integer.parseInt(inputList[1]);
+        List<String> inputList = Arrays.asList(inputLine.split(" "));
+
+        if(inputList.get(0).equals("done")) {
+            int listNum = Integer.parseInt(inputList.get(0));
             Task currTask = taskList.get(listNum - 1);
             currTask.markDone();
             taskList.set(listNum - 1, currTask);
