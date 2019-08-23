@@ -30,32 +30,49 @@ public class Duke {
         List<String> inputList = Arrays.asList(inputLine.split(" "));
 
         if(inputList.get(0).equals("done")) {
-            int listNum = Integer.parseInt(inputList.get(1));
-            taskList.get(listNum - 1).markDone();
-            Task currTask = taskList.get(listNum - 1);
-            print_line();
-            System.out.println(" Nice! I've marked this task as done:\n" + "  [" + currTask.getStatusIcon() + "] " + currTask.description);
-            print_line();
-            input();
+            try {
+                int listNum = Integer.parseInt(inputList.get(1)) - 1;
+                if(listNum >= 0 && listNum < taskList.size()) {
+                    taskList.get(listNum).markDone();
+                    Task currTask = taskList.get(listNum);
+                    print_line();
+                    System.out.println(" Nice! I've marked this task as done:\n" + taskList.toString());
+                    print_line();
+                    input();
+                }else{
+                    throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
+                }
+            }catch (DukeException e){
+                e.PrintExceptionMessage();
+                input();
+            }
+        }else if(inputList.get(0).equals("delete")) {
+            try {
+                int listNum = Integer.parseInt(inputList.get(1)) - 1;
+                if(listNum >= 0 && listNum < taskList.size()) {
+                    print_line();
+                    System.out.println("Noted. I've removed this task:\n" + taskList.toString() + "\nNow you have " + taskList.size() + " tasks in the list.");
+                    print_line();
+                    taskList.remove(listNum);
+                    input();
+                }else{
+                    throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
+                }
+            }catch (DukeException e){
+                e.PrintExceptionMessage();
+                input();
+            }
         }else if(inputLine.equals("bye")){
             print_line();
             System.out.println("Bye. Hope to see you again soon!");
             print_line();
             System.exit(0);
-        }else if(inputLine.equals("list")){
+        }else if(inputList.get(0).equals("list")){
             print_line();
             System.out.println("Here are the tasks in your list:");
             int counter = 1;
             for (Task pastTask : taskList){
-                if(pastTask instanceof Todo){ Todo todo = (Todo) pastTask;
-                System.out.println(counter + "." + todo.toString());
-                    }else if(pastTask instanceof Deadline){
-                    Deadline deadline = (Deadline) pastTask;
-                    System.out.println(counter + "." + deadline.toString());
-                    }else if (pastTask instanceof Event){
-                    Event event = (Event) pastTask;
-                    System.out.println(counter + "." + event.toString());
-                }
+                    System.out.println(counter + "." + pastTask.toString());
                 ++counter;
             }
             print_line();
