@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Duke {
     private static List<Task> taskList = new ArrayList<>();
@@ -30,9 +31,8 @@ public class Duke {
 
         if(inputList.get(0).equals("done")) {
             int listNum = Integer.parseInt(inputList.get(1));
+            taskList.get(listNum - 1).markDone();
             Task currTask = taskList.get(listNum - 1);
-            currTask.markDone();
-            taskList.set(listNum - 1, currTask);
             print_line();
             System.out.println(" Nice! I've marked this task as done:\n" + "  [" + currTask.getStatusIcon() + "] " + currTask.description);
             print_line();
@@ -46,21 +46,51 @@ public class Duke {
             print_line();
             System.out.println("Here are the tasks in your list:");
             int counter = 1;
-            for (Task pastTasks : taskList){
-                System.out.println(counter + ".[" + pastTasks.getStatusIcon() + "] " + pastTasks.description);
+            for (Task pastTask : taskList){
+                if(pastTask instanceof Todo){
+                    Todo todo = (Todo) pastTask;
+                    System.out.println(counter + "." + todo.toString());
+                }else if(pastTask instanceof Deadline){
+                    Deadline deadline = (Deadline) pastTask;
+                    System.out.println(counter + "." + deadline.toString());
+                }else if (pastTask instanceof Event){
+                    Event event = (Event) pastTask;
+                    System.out.println(counter + "." + event.toString());
+                }
                 ++counter;
             }
             print_line();
             input();
         }else{
-            Task task = new Task(inputLine);
-            taskList.add(task);
-            print_line();
-            System.out.println("added: " + inputLine);
-            print_line();
-            input();
+            switch (inputList.get(0)){
+                case "todo":
+                    String description = String.join(" ", inputList.subList(1, inputList.size()));
+                    Todo todo = new Todo(description);
+                    taskList.add(todo);
+                    print_line();
+                    System.out.println("Got it. I've added this task:\n" + todo.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
+                    print_line();
+                    input();
+                case "deadline":
+                    description = inputList.subList(1,inputList.size()).stream().takeWhile(x -> !x.equals("/by")).collect(Collectors.joining(" "));
+                    String by = inputList.subList(1,inputList.size()).stream().dropWhile(x -> !x.equals("/by")).filter(x -> !x.equals("/by")).collect(Collectors.joining(" "));
+                    Deadline deadline = new Deadline(description, by);
+                    taskList.add(deadline);
+                    print_line();
+                    System.out.println("Got it. I've added this task:\n" + deadline.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
+                    print_line();
+                    input();
+                case "event":
+                    description = inputList.subList(1,inputList.size()).stream().takeWhile(x -> !x.equals("/at")).collect(Collectors.joining(" "));
+                    String at = inputList.subList(1,inputList.size()).stream().dropWhile(x -> !x.equals("/at")).filter(x -> !x.equals("/at")).collect(Collectors.joining(" "));
+                    Event event = new Event(description, at);
+                    taskList.add(event);
+                    print_line();
+                    System.out.println("Got it. I've added this task:\n" + event.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
+                    print_line();
+                    input();
+            }
         }
-
     }
 }
 
