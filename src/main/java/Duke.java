@@ -18,7 +18,7 @@ public class Duke {
         input();
     }
 
-    private static void print_line(){
+    static void print_line(){
         for (int i = 0; i < 55; ++i) {
             System.out.print("\u2500");
         }
@@ -47,13 +47,12 @@ public class Duke {
             System.out.println("Here are the tasks in your list:");
             int counter = 1;
             for (Task pastTask : taskList){
-                if(pastTask instanceof Todo){
-                    Todo todo = (Todo) pastTask;
-                    System.out.println(counter + "." + todo.toString());
-                }else if(pastTask instanceof Deadline){
+                if(pastTask instanceof Todo){ Todo todo = (Todo) pastTask;
+                System.out.println(counter + "." + todo.toString());
+                    }else if(pastTask instanceof Deadline){
                     Deadline deadline = (Deadline) pastTask;
                     System.out.println(counter + "." + deadline.toString());
-                }else if (pastTask instanceof Event){
+                    }else if (pastTask instanceof Event){
                     Event event = (Event) pastTask;
                     System.out.println(counter + "." + event.toString());
                 }
@@ -62,9 +61,13 @@ public class Duke {
             print_line();
             input();
         }else{
-            switch (inputList.get(0)){
+            try{
+            switch (inputList.get(0)) {
                 case "todo":
                     String description = String.join(" ", inputList.subList(1, inputList.size()));
+                    if(description.isBlank()){
+                        throw new DukeException("", DukeException.ExceptionType.INVALID_TODO);
+                    }
                     Todo todo = new Todo(description);
                     taskList.add(todo);
                     print_line();
@@ -72,8 +75,14 @@ public class Duke {
                     print_line();
                     input();
                 case "deadline":
-                    description = inputList.subList(1,inputList.size()).stream().takeWhile(x -> !x.equals("/by")).collect(Collectors.joining(" "));
-                    String by = inputList.subList(1,inputList.size()).stream().dropWhile(x -> !x.equals("/by")).filter(x -> !x.equals("/by")).collect(Collectors.joining(" "));
+                    description = inputList.subList(1, inputList.size()).stream().takeWhile(x -> !x.equals("/by")).collect(Collectors.joining(" "));
+                    String by = inputList.subList(1, inputList.size()).stream().dropWhile(x -> !x.equals("/by")).filter(x -> !x.equals("/by")).collect(Collectors.joining(" "));
+                    if(description.isBlank()){
+                        throw new DukeException("", DukeException.ExceptionType.INVALID_DEADLINE);
+                    }
+                    if (by.isBlank()){
+                        throw new DukeException("", DukeException.ExceptionType.DEADLINE_TIME);
+                    }
                     Deadline deadline = new Deadline(description, by);
                     taskList.add(deadline);
                     print_line();
@@ -81,14 +90,25 @@ public class Duke {
                     print_line();
                     input();
                 case "event":
-                    description = inputList.subList(1,inputList.size()).stream().takeWhile(x -> !x.equals("/at")).collect(Collectors.joining(" "));
-                    String at = inputList.subList(1,inputList.size()).stream().dropWhile(x -> !x.equals("/at")).filter(x -> !x.equals("/at")).collect(Collectors.joining(" "));
+                    description = inputList.subList(1, inputList.size()).stream().takeWhile(x -> !x.equals("/at")).collect(Collectors.joining(" "));
+                    if(description.isBlank()){
+                        throw new DukeException("", DukeException.ExceptionType.INVALID_EVENT);
+                    }
+                    String at = inputList.subList(1, inputList.size()).stream().dropWhile(x -> !x.equals("/at")).filter(x -> !x.equals("/at")).collect(Collectors.joining(" "));
+                    if(at.isBlank()){
+                        throw new DukeException("", DukeException.ExceptionType.EVENT_TIME);
+                    }
                     Event event = new Event(description, at);
                     taskList.add(event);
                     print_line();
                     System.out.println("Got it. I've added this task:\n" + event.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
                     print_line();
                     input();
+                default: throw new DukeException("", DukeException.ExceptionType.INVALID_COMMAND);
+                }
+            }catch (DukeException e){
+                e.PrintExceptionMessage();
+                input();
             }
         }
     }
