@@ -1,0 +1,3 @@
+T | 0 | eat
+T | 1 | drink | soon
+T | 0 | love | always
