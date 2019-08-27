@@ -7,7 +7,9 @@ public class DukeException extends Exception {
         INVALID_DEADLINE,
         INVALID_EVENT,
         DEADLINE_TIME,
-        EVENT_TIME
+        EVENT_TIME,
+        OUT_OF_RANGE,
+        UNKNOWN
     }
 
     private ExceptionType type;
@@ -42,6 +44,12 @@ public class DukeException extends Exception {
             Duke.print_line();
             System.out.println("☹ OOPS!!! The time of a deadline cannot be empty.");
             Duke.print_line();
+        }else if (this.type.equals(ExceptionType.OUT_OF_RANGE)){
+            Duke.print_line();
+            System.out.println("☹ OOPS!!! THe item you have selected is out of range.");
+            Duke.print_line();
+        }else if(this.type.equals(ExceptionType.UNKNOWN)){
+            System.out.println("☹ OOPS!!! WTF SOMETHING WEIRED HAPPENED");
         }
     }
 }
