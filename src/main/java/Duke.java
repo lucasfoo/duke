@@ -14,7 +14,7 @@ public class Duke {
          */
         print_line();
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
-        
+
         print_line();
         input();
     }
