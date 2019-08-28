@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
          */
         print_line();
+        taskList = new FileManager().LoadFile();
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
         print_line();
         input();
@@ -34,24 +36,30 @@ public class Duke {
         try {
             switch (inputList.get(0)) {
                 case "done":
-                    int listNum = Integer.parseInt(inputList.get(1)) - 1;
-                    if (listNum >= 0 && listNum < taskList.size()) {
-                        taskList.get(listNum).markDone();
-                        Task currTask = taskList.get(listNum);
-                        print_line();
-                        System.out.println(" Nice! I've marked this task as done:\n" + taskList.toString());
-                        print_line();
-                        input();
+                    if (inputList.size() <= 1) {
+                        throw new DukeException("", DukeException.ExceptionType.INVALID_DONE);
                     } else {
-                        throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
+                        int listNum = Integer.parseInt(inputList.get(1)) - 1;
+                        if (listNum >= 0 && listNum < taskList.size()) {
+                            taskList.get(listNum).markDone();
+                            Task currTask = taskList.get(listNum);
+                            print_line();
+                            System.out.println(" Nice! I've marked this task as done:\n" + currTask.toString());
+                            print_line();
+                            new FileManager().saveFile(taskList);
+                            input();
+                        } else {
+                            throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
+                        }
                     }
                 case "delete":
-                    listNum = Integer.parseInt(inputList.get(1)) - 1;
+                    int listNum = Integer.parseInt(inputList.get(1)) - 1;
                     if (listNum >= 0 && listNum < taskList.size()) {
                         print_line();
                         System.out.println("Noted. I've removed this task:\n" + taskList.toString() + "\nNow you have " + taskList.size() + " tasks in the list.");
                         print_line();
                         taskList.remove(listNum);
+                        new FileManager().saveFile(taskList);
                         input();
                     } else {
                         throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
@@ -60,6 +68,7 @@ public class Duke {
                     print_line();
                     System.out.println("Bye. Hope to see you again soon!");
                     print_line();
+                    new FileManager().saveFile(taskList);
                     System.exit(0);
                 case "list":
                     print_line();
@@ -69,12 +78,6 @@ public class Duke {
                         System.out.println(counter + "." + pastTask.toString());
                         ++counter;
                     }
-                    print_line();
-                    input();
-                case "save":
-                    new FileManager().saveFile(taskList);
-                    print_line();
-                    System.out.println("Saved");
                     print_line();
                     input();
                 case "todo":
@@ -87,6 +90,7 @@ public class Duke {
                     print_line();
                     System.out.println("Got it. I've added this task:\n" + todo.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
                     print_line();
+                    new FileManager().saveFile(taskList);
                     input();
                 case "deadline":
                     description = inputList.subList(1, inputList.size()).stream().takeWhile(x -> !x.equals("/by")).collect(Collectors.joining(" "));
@@ -102,6 +106,7 @@ public class Duke {
                     print_line();
                     System.out.println("Got it. I've added this task:\n" + deadline.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
                     print_line();
+                    new FileManager().saveFile(taskList);
                     input();
                 case "event":
                     description = inputList.subList(1, inputList.size()).stream().takeWhile(x -> !x.equals("/at")).collect(Collectors.joining(" "));
@@ -115,7 +120,9 @@ public class Duke {
                     Event event = new Event(description, at);
                     taskList.add(event);
                     print_line();
+                    new FileManager().saveFile(taskList);
                     System.out.println("Got it. I've added this task:\n" + event.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
+                    new FileManager().saveFile(taskList);
                     print_line();
                     input();
                 default:

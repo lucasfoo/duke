@@ -9,6 +9,7 @@ public class DukeException extends Exception {
         DEADLINE_TIME,
         EVENT_TIME,
         OUT_OF_RANGE,
+        INVALID_DONE,
         UNKNOWN
     }
 
@@ -50,6 +51,9 @@ public class DukeException extends Exception {
             Duke.print_line();
         }else if(this.type.equals(ExceptionType.UNKNOWN)){
             System.out.println("☹ OOPS!!! WTF SOMETHING WEIRED HAPPENED");
-        }
+        }else if(this.type.equals(ExceptionType.INVALID_DONE)){
+            Duke.print_line();
+            System.out.println("☹ OOPS!!! The index of mark as done cannot be empty.");
+            Duke.print_line();        }
     }
 }
