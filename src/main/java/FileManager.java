@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +50,8 @@ public class FileManager {
                 }else if(inputArr[0].equals("D")){
                     String description = inputArr[2];
                     String by = inputArr[3];
-                    Deadline deadline = new Deadline(description, by);
+                    LocalDateTime localDateTime = LocalDateTime.parse(by);
+                    Deadline deadline = new Deadline(description, localDateTime);
                     deadline.isDone = inputArr[1].equals("1");
                     taskList.add(deadline);
                 }else if(inputArr[0].equals("E")){

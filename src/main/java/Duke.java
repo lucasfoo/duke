@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -101,7 +103,16 @@ public class Duke {
                     if (by.isBlank()) {
                         throw new DukeException("", DukeException.ExceptionType.DEADLINE_TIME);
                     }
-                    Deadline deadline = new Deadline(description, by);
+                    System.out.println(by);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(""
+                            + "[yyyy/MM/dd HHmm]"
+                            + "[yyyy-MM-dd HHmm]"
+                            + "[ddMMMyyyy HHmm]"
+                            + "[dd/MM/yyyy HHmm]"
+                            + "[d/MM/yyyy HHmm]"
+                    );
+                    LocalDateTime localDateTime = LocalDateTime.parse(by,formatter);
+                    Deadline deadline = new Deadline(description, localDateTime);
                     taskList.add(deadline);
                     print_line();
                     System.out.println("Got it. I've added this task:\n" + deadline.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
