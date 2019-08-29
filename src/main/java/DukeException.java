@@ -22,38 +22,39 @@ public class DukeException extends Exception {
 
     public void PrintExceptionMessage(){
         if(this.type.equals( ExceptionType.INVALID_COMMAND)){
-            Duke.print_line();
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
-            Duke.print_line();
+            InputParser.print_line();
         }else if(this.type.equals(ExceptionType.INVALID_TODO)){
-            Duke.print_line();
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
-            Duke.print_line();
+            InputParser.print_line();
         }else if (this.type.equals(ExceptionType.INVALID_DEADLINE)){
-            Duke.print_line();
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! The description of a deadline cannot be empty.");
-            Duke.print_line();
+            InputParser.print_line();
         }else if(this.type.equals(ExceptionType.INVALID_EVENT)){
-            Duke.print_line();
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! The description of a event cannot be empty.");
-            Duke.print_line();
+            InputParser.print_line();
         }else if(this.type.equals(ExceptionType.EVENT_TIME)){
-            Duke.print_line();
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! The time of a event cannot be empty.");
-            Duke.print_line();
+            InputParser.print_line();
         }else if(this.type.equals(ExceptionType.DEADLINE_TIME)){
-            Duke.print_line();
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! The time of a deadline cannot be empty.");
-            Duke.print_line();
+            InputParser.print_line();
         }else if (this.type.equals(ExceptionType.OUT_OF_RANGE)){
-            Duke.print_line();
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! THe item you have selected is out of range.");
-            Duke.print_line();
+            InputParser.print_line();
         }else if(this.type.equals(ExceptionType.UNKNOWN)){
             System.out.println("☹ OOPS!!! WTF SOMETHING WEIRED HAPPENED");
-        }else if(this.type.equals(ExceptionType.INVALID_DONE)){
-            Duke.print_line();
+        }else if(this.type.equals(ExceptionType.INVALID_DONE)) {
+            InputParser.print_line();
             System.out.println("☹ OOPS!!! The index of mark as done cannot be empty.");
-            Duke.print_line();        }
+            InputParser.print_line();
+        }
     }
 }
