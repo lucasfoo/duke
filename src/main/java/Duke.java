@@ -1,6 +1,5 @@
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Duke {
     private static List<Task> taskList = new ArrayList<>();
@@ -60,8 +59,8 @@ public class Duke {
                         Ui.printList(taskList);
                         break;
                     case "todo":
-                        String description = line.buildTodoDescription();
-                        if (description.isBlank()) {
+                        String description = line.buildTodo();
+                        if (description.isEmpty()) {
                             throw new DukeException("", DukeException.ExceptionType.INVALID_TODO);
                         }
                         Todo todo = new Todo(description);
@@ -70,12 +69,13 @@ public class Duke {
                         new FileManager().saveFile(taskList);
                         break;
                     case "deadline":
-                        description = line.buildDeadlineDescription();
-                        String by = line.buildDeadlineBy();
-                        if (description.isBlank()) {
+                        line.buildDeadline();
+                        description = line.description;
+                        String by = line.additional;
+                        if (description.isEmpty()) {
                             throw new DukeException("", DukeException.ExceptionType.INVALID_DEADLINE);
                         }
-                        if (by.isBlank()) {
+                        if (by.isEmpty()) {
                             throw new DukeException("", DukeException.ExceptionType.DEADLINE_TIME);
                         }
                         LocalDateTime localDateTime = new DukeDateTime().getLocalDateTime(by);
@@ -85,13 +85,14 @@ public class Duke {
                         new FileManager().saveFile(taskList);
                         break;
                     case "event":
-                        description = line.buildEventDescription();
-                        String at = line.buildEventAt();
-                        if (description.isBlank()) {
+                        line.buildEvent();
+                        description = line.description;
+                        String at = line.additional;
+                        if (description.isEmpty()) {
                             throw new DukeException("", DukeException.ExceptionType.INVALID_EVENT);
                         }
 
-                        if (at.isBlank()) {
+                        if (at.isEmpty()) {
                             throw new DukeException("", DukeException.ExceptionType.EVENT_TIME);
                         }
                         Event event = new Event(description, at);

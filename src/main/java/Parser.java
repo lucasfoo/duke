@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 public class Parser {
 
     private String command;
-    private String description;
-    private String additional;
+    public String description;
+    public String additional;
     private List<String> inputList;
 
     public void parse() {
@@ -43,43 +43,30 @@ public class Parser {
         return i;
     }
 
-    public String buildTodoDescription(){
+    public String buildTodo(){
         description = String.join(" ", inputList.subList(1, inputList.size()));
         return description;
     }
 
-    public String buildDeadlineDescription() {
-        return inputList.subList(1, inputList.size())
+    public void buildDeadline() {
+        String line = inputList.subList(1, inputList.size())
                 .stream()
-                .takeWhile(x -> !x.equals("/by"))
-                .collect(Collectors.joining(" "));
+                .collect(Collectors.joining());
+        String[] descriptionBy = line.split("/by");
+        description = descriptionBy[0];
+        additional = descriptionBy[1];
+
     }
 
-    public String buildDeadlineBy(){
-        String by = inputList.subList(1, inputList.size())
+    public void buildEvent() {
+        String line = inputList.subList(1, inputList.size())
                 .stream()
-                .dropWhile(x -> !x.equals("/by"))
-                .filter(x -> !x.equals("/by"))
-                .collect(Collectors.joining(" "));
-        additional = by;
-        return additional;
+                .collect(Collectors.joining());
+        String[] descriptionBy = line.split("/at");
+        description = descriptionBy[0];
+        additional = descriptionBy[1];
     }
 
-    public String buildEventDescription() {
-        return inputList.subList(1, inputList.size())
-                .stream()
-                .takeWhile(x -> !x.equals("/at"))
-                .collect(Collectors.joining(" "));
-    }
-
-    public String buildEventAt(){
-        String at = inputList.subList(1, inputList.size())
-                .stream().dropWhile(x -> !x.equals("/at"))
-                .filter(x -> !x.equals("/at"))
-                .collect(Collectors.joining(" "));
-        additional = at;
-        return additional;
-    }
 
 
 }
