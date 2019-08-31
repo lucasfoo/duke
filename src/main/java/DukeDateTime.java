@@ -8,6 +8,7 @@ public class DukeDateTime {
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .appendPattern("[d/M/yyyy HHmm]")
                 .appendPattern("[d-M-yyyy HHmm]")
+                .appendPattern("[dMyyyy HHmm]")
                 .toFormatter();
         return LocalDateTime.parse(time,formatter);
     }
