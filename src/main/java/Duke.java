@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Duke {
     private static List<Task> taskList = new ArrayList<>();
@@ -57,6 +58,16 @@ public class Duke {
                         break;
                     case "list":
                         Ui.printList(taskList);
+                        break;
+                    case "find":
+                        String argument = line.getArgument().toLowerCase();
+                        if(argument.isEmpty())
+                            throw new DukeException("", DukeException.ExceptionType.INVALID_ARGUMENT);
+                        else {
+                            List<Task> foundList = taskList.stream()
+                                    .filter(x -> x.description.toLowerCase().contains(argument)).collect(Collectors.toList());
+                            Ui.printList(foundList);
+                        }
                         break;
                     case "todo":
                         String description = line.buildTodo();

@@ -8,7 +8,8 @@ public class DukeException extends Exception {
         EVENT_TIME,
         OUT_OF_RANGE,
         INVALID_DONE,
-        UNKNOWN
+        UNKNOWN,
+        INVALID_ARGUMENT
     }
 
     private ExceptionType type;
@@ -52,6 +53,10 @@ public class DukeException extends Exception {
         }else if(this.type.equals(ExceptionType.INVALID_DONE)) {
             Ui.print_line();
             System.out.println("☹ OOPS!!! The index of mark as done cannot be empty.");
+            Ui.print_line();
+        }else if(this.type.equals(ExceptionType.INVALID_ARGUMENT)) {
+            Ui.print_line();
+            System.out.println("☹ OOPS!!! The argument for find cannot be empty!");
             Ui.print_line();
         }
     }

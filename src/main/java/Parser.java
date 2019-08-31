@@ -24,6 +24,14 @@ public class Parser {
         inputList = Arrays.asList(inputLine.split(" "));
     }
 
+    public String getArgument(){
+        if(inputList.size() > 1)
+            return inputList.get(1);
+        else
+            return "";
+
+    }
+
     public String getCommand() {
         command = inputList.get(0);
         return command;
