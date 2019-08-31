@@ -51,8 +51,8 @@ public class Parser {
     public void buildDeadline() {
         String line = inputList.subList(1, inputList.size())
                 .stream()
-                .collect(Collectors.joining());
-        String[] descriptionBy = line.split("/by");
+                .collect(Collectors.joining(" "));
+        String[] descriptionBy = line.split("/by ");
         description = descriptionBy[0];
         additional = descriptionBy[1];
 
@@ -61,8 +61,8 @@ public class Parser {
     public void buildEvent() {
         String line = inputList.subList(1, inputList.size())
                 .stream()
-                .collect(Collectors.joining());
-        String[] descriptionBy = line.split("/at");
+                .collect(Collectors.joining(" "));
+        String[] descriptionBy = line.split("/at ");
         description = descriptionBy[0];
         additional = descriptionBy[1];
     }
