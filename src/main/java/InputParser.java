@@ -43,6 +43,18 @@ public class InputParser {
                             throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
                         }
                     }
+                case "delete":
+                    int listNum = Integer.parseInt(inputList.get(1)) - 1;
+                    if (listNum >= 0 && listNum < taskList.size()) {
+                        print_line();
+                        System.out.println("Noted. I've removed this task:\n" + taskList.toString() + "\nNow you have " + (taskList.size() - 1) + " tasks in the list.");
+                        print_line();
+                        taskList.remove(listNum);
+                        new FileManager().saveFile(taskList);
+                        input(taskList);
+                    } else {
+                        throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
+                    }
                 case "bye":
                     print_line();
                     System.out.println("Bye. Hope to see you again soon!");
