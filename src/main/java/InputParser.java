@@ -81,7 +81,11 @@ public class InputParser {
                         throw new DukeException("", DukeException.ExceptionType.DEADLINE_TIME);
                     }
                     System.out.println(by);
-                    Deadline deadline = new Deadline(description, by);
+                    DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                            .appendPattern("[d/M/yyyy HHmm]")
+                            .toFormatter();
+                    LocalDateTime localDateTime = LocalDateTime.parse(by,formatter);
+                    Deadline deadline = new Deadline(description, localDateTime);
                     taskList.add(deadline);
                     print_line();
                     System.out.println("Got it. I've added this task:\n" + deadline.toString() + "\nNow you have " + taskList.size() + " tasks in the list.\n");
