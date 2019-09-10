@@ -56,11 +56,14 @@ public class Parser {
         return description;
     }
 
-    public void buildDeadline() {
+    public void buildDeadline() throws DukeException {
         String line = inputList.subList(1, inputList.size())
                 .stream()
                 .collect(Collectors.joining(" "));
         String[] descriptionBy = line.split("/by ");
+        if(descriptionBy.length != 2){
+            throw new DukeException("", DukeException.ExceptionType.INVALID_DEADLINE);
+        }
         description = descriptionBy[0];
         additional = descriptionBy[1];
 

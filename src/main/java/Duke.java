@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Duke {
@@ -39,6 +40,17 @@ public class Duke {
                             throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
                         }
                         break;
+                    case "delete":
+                        listNum = line.getIndex();
+                        if (listNum >= 0 && listNum < taskList.size()) {
+                            Task currTask = taskList.get(listNum);
+                            Ui.printDeleted(currTask, taskList);
+                            taskList.remove(listNum);
+                            new FileManager().saveFile(taskList);
+                        } else {
+                            throw new DukeException("", DukeException.ExceptionType.OUT_OF_RANGE);
+                        }
+                        break;
                     case "bye":
                         Ui.printBye();
                         new FileManager().saveFile(taskList);
@@ -50,7 +62,7 @@ public class Duke {
                         break;
                     case "find":
                         String argument = line.getArgument().toLowerCase();
-                        if(argument.isEmpty())
+                        if (argument.isEmpty())
                             throw new DukeException("", DukeException.ExceptionType.INVALID_ARGUMENT);
                         else {
                             List<Task> foundList = taskList.stream()
