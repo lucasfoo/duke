@@ -1,5 +1,8 @@
 public class Todo extends Task {
-
+    /**
+     * Consructor for todo
+     * @param description of the task
+     */
     public Todo(String description) {
         super(description);
     }

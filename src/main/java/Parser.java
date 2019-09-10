@@ -17,13 +17,19 @@ public class Parser {
 
     }
 
-
+    /**
+     * Constructor: reads a line from input and stores it as a list of Strongs
+     */
     public Parser() {
         Scanner scanner = new Scanner(System.in);
         String inputLine = scanner.nextLine();
         inputList = Arrays.asList(inputLine.split(" "));
     }
 
+    /**
+     * This would usually contain the description of the task
+     * @return the 2nd word of the input if there is one, else returns a empty string
+     */
     public String getArgument(){
         if(inputList.size() > 1)
             return inputList.get(1);
@@ -32,11 +38,19 @@ public class Parser {
 
     }
 
+    /**
+     * Retrieve the first word of the input
+     * @return the first word of the input
+     */
     public String getCommand() {
         command = inputList.get(0);
         return command;
     }
 
+    /**
+     * This method is used to get the the integer for tasks such as delete and markdone
+     * @return an int value of the tasklist for the command which we want to operate on
+     */
     public int getIndex() {
         int i = -1;
         try{
@@ -51,11 +65,19 @@ public class Parser {
         return i;
     }
 
+    /**
+     *
+     * @return the description of the Todo task
+     */
     public String buildTodo(){
         description = String.join(" ", inputList.subList(1, inputList.size()));
         return description;
     }
 
+    /**
+     * Splits the deadline into 2 strings, the description and the deadline
+     * @throws DukeException when either no description or deadline
+     */
     public void buildDeadline() throws DukeException {
         String line = inputList.subList(1, inputList.size())
                 .stream()
@@ -69,6 +91,9 @@ public class Parser {
 
     }
 
+    /**
+     * Splits the event input into 2 strings, the description and the event
+     */
     public void buildEvent() {
         String line = inputList.subList(1, inputList.size())
                 .stream()
